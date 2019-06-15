@@ -32,7 +32,6 @@ public class EngineStart extends Application {
         LoadConfiguration.load();
         AssetLoading.load();
 
-        WorldCreation.createWorlds();
         TileCreation.createTiles();
 
         startEngineLoop();

@@ -5,12 +5,11 @@ import javafx.scene.layout.Pane;
 
 public class World extends Pane {
 
-    private String worldId;
+    private int worldId;
     private Image basicTile;
 
-    public World(String worldId, Image basicTile, int width, int height) {
+    World(int worldId, int width, int height) {
         this.worldId = worldId;
-        this.basicTile = basicTile;
 
         this.setWidth(width);
         this.setMinWidth(width);
@@ -20,8 +19,12 @@ public class World extends Pane {
         this.setMaxHeight(height);
     }
 
-    public String getWorldId() {
+    int getWorldId() {
         return worldId;
+    }
+
+    public void setBasicTile(Image basicTile) {
+        this.basicTile = basicTile;
     }
 
     public Image getBasicTile() {

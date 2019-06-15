@@ -1,6 +1,7 @@
 package Configuration;
 
 import org.ini4j.Ini;
+import world.WorldCreation;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +10,6 @@ import java.util.ArrayList;
 public class LoadConfiguration {
 
     private static ArrayList<String> defaultTiles = new ArrayList<>();
-    private static ArrayList<WorldConfiguration> worldConfigurations = new ArrayList<>();
 
     public static void load() {
         Ini ini = null;
@@ -27,21 +27,15 @@ public class LoadConfiguration {
         for (int i = 1; i <  numOfWorlds + 1; i++) {
             defaultTiles.add(ini.get("world" + i, "defaultTile"));
 
-            worldConfigurations.add(
-                new WorldConfiguration(
-                        
-                )
+            WorldCreation.createWorld(
+                i,
+                Integer.parseInt(ini.get("world" + i, "horizontalRegions")),
+                Integer.parseInt(ini.get("world" + i, "verticalRegions"))
             );
         }
-        System.out.println(defaultTiles);
-
     }
 
     public static ArrayList<String> getDefaultTiles() {
         return defaultTiles;
-    }
-
-    public static ArrayList<WorldConfiguration> getWorldConfigs() {
-        return worldConfigurations;
     }
 }

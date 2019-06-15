@@ -1,22 +1,23 @@
 package Configuration;
 
-import Configuration.LoadConfiguration;
 import javafx.scene.image.Image;
+import world.WorldHandler;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-class AssetLoading {
+public class AssetLoading {
 
     private static ArrayList<Image> defaultWorldTiles = new ArrayList<>();
 
-    static void load() {
+    public static void load() {
         ArrayList<String> tileNames = LoadConfiguration.getDefaultTiles();
         try {
-            for (String tileName : tileNames) {
+            for (int i = 0; i < tileNames.size(); i++) {
                 defaultWorldTiles.add(new Image(new FileInputStream("src/main/resources/Terrain/"
-                        + tileName + ".png"),0, 0, true, false));
+                        + tileNames.get(i) + ".png"),0, 0, true, false));
+                WorldHandler.getWorld(i + 1).setBasicTile(defaultWorldTiles.get(defaultWorldTiles.size() - 1));
             }
         }
         catch (FileNotFoundException error) {

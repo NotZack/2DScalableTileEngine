@@ -12,9 +12,9 @@ public class WorldHandler {
         worldsList.add(worldToAdd);
     }
 
-    public static World getWorld(String worldId) {
+    public static World getWorld(int worldId) {
         for (World world : worldsList) {
-            if (world.getWorldId().equals(worldId)) {
+            if (world.getWorldId() == worldId) {
                 return world;
             }
         }
