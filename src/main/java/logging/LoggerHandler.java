@@ -9,8 +9,11 @@ public class LoggerHandler {
     private static UserEventLogger userLog = new UserEventLogger();
 
     public static void logEvent(Object event, String eventPlainText) {
-        if (event instanceof Exception)
+        if (event instanceof Exception) {
             debugLog.logEvent(eventPlainText);
-
+        }
+        else {
+            userLog.logEvent(eventPlainText);
+        }
     }
 }

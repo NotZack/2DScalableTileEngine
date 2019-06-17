@@ -8,7 +8,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tiles.TileCreation;
-import world.WorldCreation;
 
 public class EngineStart extends Application {
 
@@ -44,7 +43,6 @@ public class EngineStart extends Application {
 
             @Override
             public void handle(long frameTime) {
-                CameraControl.updateCamera();
 
                 //Time difference from last frame
                 deltaTime = 0.00000001 * (frameTime - lastUpdate);
@@ -54,6 +52,7 @@ public class EngineStart extends Application {
 
                 if (frameTime - lastUpdate >= engineSpeed) {
                     updateTick();
+                    drawUpdate();
                     lastUpdate = frameTime;
                 }
             }
@@ -62,6 +61,10 @@ public class EngineStart extends Application {
     }
 
     private static void updateTick() {
+
+    }
+
+    private static void drawUpdate() {
 
     }
 
