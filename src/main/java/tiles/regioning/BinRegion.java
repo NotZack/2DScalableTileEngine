@@ -1,4 +1,4 @@
-package world.regioning;
+package tiles.regioning;
 
 public class BinRegion {
 }

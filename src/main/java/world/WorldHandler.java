@@ -1,10 +1,16 @@
 package world;
 
+import configuration.LoadConfiguration;
 import logging.LoggerHandler;
+import main.Engine;
+import tiles.TileCreation;
+import tiles.TileHandler;
 
 import java.util.ArrayList;
 
 public class WorldHandler {
+
+    private static World currentWorld;
 
     private static ArrayList<World> worldsList = new ArrayList<>();
 
@@ -24,5 +30,22 @@ public class WorldHandler {
 
     public static ArrayList<World> getWorldsList() {
         return worldsList;
+    }
+
+    public static void createWorlds() {
+        for (int i = 0; i < LoadConfiguration.getNumberOfWorlds(); i++) {
+            worldsList.add(new World(WorldTemplate.getTemplate(i)));
+        }
+        currentWorld = getWorld(0);
+    }
+
+    public static World getCurrentWorld() {
+        return currentWorld;
+    }
+
+    static void changeWorld(int worldId) {
+        Engine.clearScreen();
+        TileHandler.createTileMap();
+        currentWorld = getWorld(worldId);
     }
 }

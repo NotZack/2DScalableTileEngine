@@ -1,17 +1,18 @@
 package main;
 
-import Configuration.AssetLoading;
-import Configuration.LoadConfiguration;
+import configuration.AssetLoading;
+import configuration.LoadConfiguration;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import tiles.TileCreation;
+import world.WorldHandler;
 
-public class EngineStart extends Application {
+public class Engine extends Application {
 
-    private Group root = new Group();
+    private static Group root = new Group();
     private Scene initialScene = new Scene(root, 800, 600);
 
     private static long engineSpeed = 128_666_666L;
@@ -29,9 +30,8 @@ public class EngineStart extends Application {
 
     private static void engineInit() {
         LoadConfiguration.load();
-        AssetLoading.load();
-
-        TileCreation.createTiles();
+        WorldHandler.createWorlds();
+        AssetLoading.loadCurrentWorldTiles();
 
         startEngineLoop();
     }
@@ -61,11 +61,15 @@ public class EngineStart extends Application {
     }
 
     private static void updateTick() {
-
+        //Add engine implementation
     }
 
     private static void drawUpdate() {
 
+    }
+
+    public static void clearScreen() {
+        root.getChildren().clear();
     }
 
     public static void main(String[] args) {
