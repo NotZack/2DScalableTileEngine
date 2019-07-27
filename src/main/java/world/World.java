@@ -1,33 +1,34 @@
 package world;
 
-import javafx.scene.image.Image;
+import configuration.AssetLoading;
 import javafx.scene.layout.Pane;
 
 public class World extends Pane {
 
     private int worldId;
-    private Image basicTile;
+    private String classification;
 
-    World(int worldId, int width, int height) {
-        this.worldId = worldId;
+    World(WorldTemplate worldTemplate) {
+        this.worldId = worldTemplate.getWorldId();
+        this.classification = worldTemplate.getClassification();
 
-        this.setWidth(width);
-        this.setMinWidth(width);
-        this.setMaxWidth(width);
-        this.setHeight(height);
-        this.setMinHeight(height);
-        this.setMaxHeight(height);
+        this.setWidth(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
+        this.setMinWidth(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
+        this.setMaxWidth(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
+        this.setHeight(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
+        this.setMinHeight(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
+        this.setMaxHeight(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
     }
 
     int getWorldId() {
         return worldId;
     }
 
-    public void setBasicTile(Image basicTile) {
-        this.basicTile = basicTile;
+    public String getClassification() {
+        return classification;
     }
 
-    public Image getBasicTile() {
-        return basicTile;
+    public int getSize() {
+        return (int) this.getMaxWidth();
     }
 }
