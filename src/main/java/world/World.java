@@ -27,4 +27,8 @@ public class World extends Pane {
     public String getClassification() {
         return classification;
     }
+
+    public int getSize() {
+        return (int) this.getMaxWidth();
+    }
 }

@@ -3,7 +3,6 @@ package world;
 import configuration.LoadConfiguration;
 import logging.LoggerHandler;
 import main.Engine;
-import tiles.TileCreation;
 import tiles.TileHandler;
 
 import java.util.ArrayList;
@@ -36,16 +35,17 @@ public class WorldHandler {
         for (int i = 0; i < LoadConfiguration.getNumberOfWorlds(); i++) {
             worldsList.add(new World(WorldTemplate.getTemplate(i)));
         }
-        currentWorld = getWorld(0);
+        changeWorld(0);
     }
 
     public static World getCurrentWorld() {
         return currentWorld;
     }
 
-    static void changeWorld(int worldId) {
+    public static void changeWorld(int worldId) {
         Engine.clearScreen();
-        TileHandler.createTileMap();
         currentWorld = getWorld(worldId);
+        TileHandler.createTileMap();
+
     }
 }
