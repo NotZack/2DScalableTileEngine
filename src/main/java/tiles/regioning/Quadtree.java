@@ -29,8 +29,11 @@ class Quadtree extends Group {
     }
 
     void insert(double x, double y, ImageView objectToInsert) {
-        if ( (x < (rootTree.x + rootTree.size)) && (y < (rootTree.y + rootTree.size)) && (x >= rootTree.x && y >= rootTree.y) )
+        if ( (x < (rootTree.x + rootTree.size)) && (y < (rootTree.y + rootTree.size)) && (x >= rootTree.x && y >= rootTree.y) ) {
             insert(rootTree, x, y, objectToInsert);
+            this.getChildren().add(objectToInsert);
+        }
+
         else
             System.out.println("Wrong BinRegion!");
     }

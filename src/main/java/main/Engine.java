@@ -7,7 +7,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import tiles.TileCreation;
+import tiles.regioning.BinRegion;
 import world.WorldHandler;
 
 public class Engine extends Application {
@@ -33,6 +33,7 @@ public class Engine extends Application {
         WorldHandler.createWorlds();
         AssetLoading.loadCurrentWorldTiles();
 
+        WorldHandler.changeWorld(0);
         startEngineLoop();
     }
 
@@ -61,7 +62,10 @@ public class Engine extends Application {
     }
 
     private static void updateTick() {
-        //Add engine implementation
+
+        //TODO: Implement proper bin region switching
+        root.getChildren().addAll(WorldHandler.getCurrentWorld().getChildren());
+        System.out.println(root.getChildren());
     }
 
     private static void drawUpdate() {

@@ -32,10 +32,10 @@ public class WorldHandler {
     }
 
     public static void createWorlds() {
-        for (int i = 0; i < LoadConfiguration.getNumberOfWorlds(); i++) {
+        for (int i = 0; i < LoadConfiguration.getNumOfInitWorlds(); i++) {
             worldsList.add(new World(WorldTemplate.getTemplate(i)));
         }
-        changeWorld(0);
+        currentWorld = getWorld(0);
     }
 
     public static World getCurrentWorld() {
@@ -44,8 +44,8 @@ public class WorldHandler {
 
     public static void changeWorld(int worldId) {
         Engine.clearScreen();
+
         currentWorld = getWorld(worldId);
         TileHandler.createTileMap();
-
     }
 }

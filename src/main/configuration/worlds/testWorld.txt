@@ -1,0 +1,4 @@
+classification=terrestrial
+size=110
+mountainBiomes=2
+desertBiomes=2

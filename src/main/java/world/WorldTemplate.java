@@ -33,4 +33,9 @@ public class WorldTemplate {
     int getSize() {
         return size;
     }
+
+    @Override
+    public String toString() {
+        return "World " + worldId + ": classification:" + classification + " size:" + size;
+    }
 }

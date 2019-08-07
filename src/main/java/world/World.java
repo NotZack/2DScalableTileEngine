@@ -1,7 +1,8 @@
 package world;
 
-import configuration.AssetLoading;
 import javafx.scene.layout.Pane;
+
+import static configuration.AssetLoading.TILE_SIZE;
 
 public class World extends Pane {
 
@@ -12,12 +13,12 @@ public class World extends Pane {
         this.worldId = worldTemplate.getWorldId();
         this.classification = worldTemplate.getClassification();
 
-        this.setWidth(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
-        this.setMinWidth(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
-        this.setMaxWidth(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
-        this.setHeight(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
-        this.setMinHeight(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
-        this.setMaxHeight(worldTemplate.getSize() * AssetLoading.TILE_SIZE);
+        this.setWidth(worldTemplate.getSize() * TILE_SIZE);
+        this.setMinWidth(worldTemplate.getSize() * TILE_SIZE);
+        this.setMaxWidth(worldTemplate.getSize() * TILE_SIZE);
+        this.setHeight(worldTemplate.getSize() * TILE_SIZE);
+        this.setMinHeight(worldTemplate.getSize() * TILE_SIZE);
+        this.setMaxHeight(worldTemplate.getSize() * TILE_SIZE);
     }
 
     int getWorldId() {
@@ -28,7 +29,7 @@ public class World extends Pane {
         return classification;
     }
 
-    public int getSize() {
-        return (int) this.getMaxWidth();
+    public int getTileLength() {
+        return (int) this.getMaxWidth() / TILE_SIZE;
     }
 }

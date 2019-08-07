@@ -10,27 +10,24 @@ public class AssetLoading {
 
     public static final int TILE_SIZE = 400;
 
-    private static Image basicTile;
+    public static Image basicTile;
     private static Image nonBasicTile;
 
     public static void loadCurrentWorldTiles() {
         try {
             if (WorldHandler.getCurrentWorld().getClassification().equals("terrestrial")) {
-                basicTile = new Image(new FileInputStream("src/main/resources/Terrain/"
-                        + "FlatTerrain.png"),0, 0, true, false);
-                nonBasicTile = new Image(new FileInputStream("src/main/resources/Terrain/"
-                        + "DesertTerrain.png"),0, 0, true, false);
+                basicTile = new Image(new FileInputStream("src/main/resources/Terrain/" + "FlatTerrain.png"));
+                nonBasicTile = new Image(new FileInputStream("src/main/resources/Terrain/" + "DesertTerrain.png"));
             }
             else {
-                basicTile = new Image(new FileInputStream("src/main/resources/Terrain/"
-                        + "DesertTerrain.png"),0, 0, true, false);
-                nonBasicTile = new Image(new FileInputStream("src/main/resources/Terrain/"
-                        + "FlatTerrain.png"),0, 0, true, false);
+                basicTile = new Image(new FileInputStream("src/main/resources/Terrain/" + "DesertTerrain.png"));
+                nonBasicTile = new Image(new FileInputStream("src/main/resources/Terrain/" + "FlatTerrain.png"));
             }
-
         }
         catch (FileNotFoundException error) {
             error.printStackTrace();
         }
     }
+
+
 }
