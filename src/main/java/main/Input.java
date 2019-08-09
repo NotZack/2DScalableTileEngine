@@ -66,7 +66,7 @@ class Input {
         });
     }
 
-    static void updateCamera(Scene mainScene) {
+    static void updateCamera() {
         World currentWorld = WorldHandler.getCurrentWorld();
         if (northMovement)
             currentWorld.setLayoutY(currentWorld.getLayoutY() + cameraMoveSpeed);
@@ -78,35 +78,34 @@ class Input {
             currentWorld.setLayoutX(currentWorld.getLayoutX() - cameraMoveSpeed);
 
         if (zoomIn)
-            zoomCamera(true, mainScene);
+            zoomCamera(true);
         if (zoomOut)
-            zoomCamera(false, mainScene);
+            zoomCamera(false);
+
+        Engine.drawUpdate();
     }
 
-    private static void zoomCamera(boolean direction, Scene mainScene) {
+    private static void zoomCamera(boolean direction) {
         double delta = 1.2;
         double scale = WorldHandler.getCurrentWorld().getScaleY();
         double oldScale = scale;
 
-        if (direction && scale < 2.4)
-            scale *= delta;
-
-        else if (!direction && scale > 0.1)
-            scale /= delta;
+        if (direction && scale < 2.4) scale *= delta;
+        else if (!direction && scale > 0.1) scale /= delta;
 
         double f = (scale / oldScale) - 1;
 
         //Determining the shift in position of the camera as it zooms in on the center of the screen
-        Bounds bounds = WorldHandler.getCurrentWorld().localToScene(WorldHandler.getCurrentWorld().getBoundsInLocal());
-        double dx = (mainScene.getWidth()/2.0 - (bounds.getWidth() / 2 + bounds.getMinX()));
-        double dy = (mainScene.getHeight()/2.0 - (bounds.getHeight() / 2 + bounds.getMinY()));
+        Bounds bounds = WorldHandler.getCurrentWorld().localToScene(WorldHandler.getCurrentWorld().getLayoutBounds());
+        double shiftX = ( (Engine.getViewport().getWidth() / 2.0) - ((bounds.getWidth() / 2) + bounds.getMinX()));
+        double shiftY = ( (Engine.getViewport().getHeight() / 2.0) - ((bounds.getHeight() / 2) + bounds.getMinY()));
 
         //Applying the new scale
         WorldHandler.getCurrentWorld().setScaleX(scale);
         WorldHandler.getCurrentWorld().setScaleY(scale);
 
         //Applying the new translation
-        WorldHandler.getCurrentWorld().setLayoutX(WorldHandler.getCurrentWorld().getLayoutX() - f * dx);
-        WorldHandler.getCurrentWorld().setLayoutY(WorldHandler.getCurrentWorld().getLayoutY() - f * dy);
+        WorldHandler.getCurrentWorld().setLayoutX(WorldHandler.getCurrentWorld().getLayoutX() - (f * shiftX));
+        WorldHandler.getCurrentWorld().setLayoutY(WorldHandler.getCurrentWorld().getLayoutY() - (f * shiftY));
     }
 }

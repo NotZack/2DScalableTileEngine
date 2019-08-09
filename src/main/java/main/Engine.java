@@ -4,22 +4,27 @@ import configuration.AssetLoading;
 import configuration.LoadConfiguration;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.geometry.Point2D;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tiles.regioning.BinRegion;
 import tiles.regioning.BinRegionHandler;
+import world.World;
 import world.WorldHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Engine extends Application {
 
     private static Group root = new Group();
     private static Scene initialScene = new Scene(root, 800, 600);
+    private static Bounds viewport = new BoundingBox(0, 0, initialScene.getWidth(), initialScene.getHeight());
 
     private static long engineSpeed = 128_666_666L;
     private static double deltaTime = 0;
@@ -46,8 +51,6 @@ public class Engine extends Application {
         Input.enableInput(initialScene);
 
         startEngineLoop();
-
-
     }
 
     private static void startEngineLoop() {
@@ -58,7 +61,7 @@ public class Engine extends Application {
             @Override
             public void handle(long frameTime) {
 
-                Input.updateCamera(initialScene);
+                Input.updateCamera();
 
                 //Time difference from last frame
                 deltaTime = 0.00000001 * (frameTime - lastUpdate);
@@ -68,7 +71,6 @@ public class Engine extends Application {
 
                 if (frameTime - lastUpdate >= engineSpeed) {
                     updateTick();
-                    drawUpdate();
                     lastUpdate = frameTime;
                 }
             }
@@ -81,16 +83,38 @@ public class Engine extends Application {
         //TODO: Implement proper bin region switching
     }
 
-    private static void drawUpdate() {
+    static void drawUpdate() {
         List<List<BinRegion>> activeRegions = BinRegionHandler.getActiveWorldRegions();
 
-        Point2D pointTest = WorldHandler.getCurrentWorld().sceneToLocal(new Point2D(0, 0));
-        System.out.println(pointTest);
+        Bounds localViewport = WorldHandler.getCurrentWorld().sceneToLocal(getViewport());
+
+        ArrayList<BinRegion> seenRegions = new ArrayList<>();
+        for (List<BinRegion> regionsList : activeRegions) {
+            for (BinRegion regions : regionsList) {
+                if (regions.localToParent(regions.getLayoutBounds()).intersects(localViewport))
+                    seenRegions.add(regions);
+                else
+                    seenRegions.remove(regions);
+            }
+        }
+
+        for (BinRegion region : seenRegions) {
+            if (!WorldHandler.getCurrentWorld().getChildren().contains(region))
+                WorldHandler.getCurrentWorld().getChildren().add(WorldHandler.getCurrentWorld().getChildren().size(), region);
+        }
+
+        if ((WorldHandler.getCurrentWorld().getChildren().size() - seenRegions.size()) > 0) {
+            WorldHandler.getCurrentWorld().getChildren().subList(0, (WorldHandler.getCurrentWorld().getChildren().size() - seenRegions.size())).clear();
+        }
 
     }
 
     public static void clearScreen() {
         root.getChildren().clear();
+    }
+
+    static Bounds getViewport() {
+        return viewport;
     }
 
     public static void main(String[] args) {

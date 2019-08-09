@@ -11,7 +11,7 @@ public class BinRegion extends Quadtree {
 
     BinRegion(int x, int y) {
         this.setLayoutX(x);
-        this.setLayoutX(y);
+        this.setLayoutY(y);
 
         rootTree = new TreeNode(x, y, BIN_REGION_SIZE * AssetLoading.TILE_SIZE);
     }
@@ -21,8 +21,8 @@ public class BinRegion extends Quadtree {
     }
 
     public void addObject(int x, int y, ImageView objectToAdd) {
-        objectToAdd.setLayoutX(x);
-        objectToAdd.setLayoutY(y);
+        objectToAdd.setLayoutX(x - this.getLayoutX());
+        objectToAdd.setLayoutY(y - this.getLayoutY());
         insert(x, y, objectToAdd);
     }
 }

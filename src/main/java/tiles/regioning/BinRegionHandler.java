@@ -24,6 +24,9 @@ public class BinRegionHandler {
                 BinRegion newRegion = new BinRegion(i * (BIN_REGION_SIZE * TILE_SIZE), j * (BIN_REGION_SIZE * TILE_SIZE));
                 newWorld.getChildren().add(newRegion);
 
+                System.out.println("X: " + newRegion.getLayoutX());
+                System.out.println("Y: " + newRegion.getLayoutY());
+
                 //TODO: Add dynamic drawing (add only needed bin regions to world node aka root node)
                 activeWorldRegions.get(i).add(newRegion);
             }
