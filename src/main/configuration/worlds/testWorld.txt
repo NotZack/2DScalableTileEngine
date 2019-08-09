@@ -1,4 +1,4 @@
 classification=terrestrial
-size=110
+size=100
 mountainBiomes=2
 desertBiomes=2
