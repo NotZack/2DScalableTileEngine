@@ -4,17 +4,14 @@ import configuration.AssetLoading;
 import configuration.LoadConfiguration;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.geometry.BoundingBox;
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import tiles.regioning.BinRegion;
 import tiles.regioning.BinRegionHandler;
-import world.World;
 import world.WorldHandler;
 
 import java.util.ArrayList;
@@ -47,13 +44,13 @@ public class Engine extends Application {
 
         WorldHandler.changeWorld(0);
 
-        root.getChildren().add(WorldHandler.getCurrentWorld());
-        Input.enableInput(initialScene);
-
+        Platform.runLater(() -> root.getChildren().add(WorldHandler.getCurrentWorld()));
         startEngineLoop();
     }
 
     private static void startEngineLoop() {
+        Input.enableInput(initialScene);
+
         //Timer runs constantly
         AnimationTimer engineLoop = new AnimationTimer() {
             private long lastUpdate = 0;
@@ -106,7 +103,6 @@ public class Engine extends Application {
         if ((WorldHandler.getCurrentWorld().getChildren().size() - seenRegions.size()) > 0) {
             WorldHandler.getCurrentWorld().getChildren().subList(0, (WorldHandler.getCurrentWorld().getChildren().size() - seenRegions.size())).clear();
         }
-
     }
 
     public static void clearScreen() {

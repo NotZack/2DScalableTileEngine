@@ -2,18 +2,17 @@ package tiles.regioning;
 
 import configuration.AssetLoading;
 import javafx.geometry.BoundingBox;
+import javafx.scene.Group;
 import javafx.scene.image.ImageView;
 
 
-public class BinRegion extends Quadtree {
+public class BinRegion extends Group {
 
-    static final int BIN_REGION_SIZE = 50;
+    static final int BIN_REGION_SIZE = 25;
 
     BinRegion(int x, int y) {
         this.setLayoutX(x);
         this.setLayoutY(y);
-
-        rootTree = new TreeNode(x, y, BIN_REGION_SIZE * AssetLoading.TILE_SIZE);
     }
 
     BoundingBox getBoundLimits() {
@@ -23,6 +22,6 @@ public class BinRegion extends Quadtree {
     public void addObject(int x, int y, ImageView objectToAdd) {
         objectToAdd.setLayoutX(x - this.getLayoutX());
         objectToAdd.setLayoutY(y - this.getLayoutY());
-        insert(x, y, objectToAdd);
+        this.getChildren().add(objectToAdd);
     }
 }

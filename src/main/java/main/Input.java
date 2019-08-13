@@ -18,7 +18,7 @@ class Input {
     private static boolean zoomIn = false;
     private static boolean zoomOut = false;
 
-    private static int cameraMoveSpeed = 10;
+    private static int cameraMoveSpeed = 20;
 
     /**
      * Sets the listener for any key press or mouse event. Will update the corresponding object.

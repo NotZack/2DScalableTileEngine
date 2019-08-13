@@ -15,8 +15,6 @@ class TileCreation {
                 int xCoord = i * 400;
                 int yCoord = j * 400;
 
-                System.out.println(xCoord);
-                System.out.println(yCoord);
                 BinRegionHandler.getRegionFromCoords(xCoord, yCoord).addObject(xCoord, yCoord, new Tile(AssetLoading.basicTile));
             }
         }
