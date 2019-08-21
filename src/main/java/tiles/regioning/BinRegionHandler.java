@@ -1,6 +1,9 @@
 package tiles.regioning;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import world.World;
+import world.WorldHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +15,7 @@ public class BinRegionHandler {
 
     private static List<List<BinRegion>> activeWorldRegions = new ArrayList<>();
 
-    public static void createBinRegions(World newWorld) {
+    public static void createBinRegions(@NotNull World newWorld) {
 
         int numOfRegions = newWorld.getTileLength() / (BIN_REGION_SIZE);
 
@@ -22,7 +25,6 @@ public class BinRegionHandler {
             activeWorldRegions.add(new ArrayList<>());
             for (int j = 0; j < numOfRegions; j++) {
                 BinRegion newRegion = new BinRegion(i * (BIN_REGION_SIZE * TILE_SIZE), j * (BIN_REGION_SIZE * TILE_SIZE));
-                newWorld.getChildren().add(newRegion);
 
                 //TODO: Add dynamic drawing (add only needed bin regions to world node aka root node)
                 activeWorldRegions.get(i).add(newRegion);
@@ -36,6 +38,7 @@ public class BinRegionHandler {
         return activeWorldRegions.get(xBinRegion).get(yBinRegion);
     }
 
+    @Contract(pure = true)
     public static List<List<BinRegion>> getActiveWorldRegions() {
         return activeWorldRegions;
     }

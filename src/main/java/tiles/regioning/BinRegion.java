@@ -1,27 +1,46 @@
 package tiles.regioning;
 
-import configuration.AssetLoading;
-import javafx.geometry.BoundingBox;
-import javafx.scene.Group;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
+import tiles.Tile;
 
+import java.util.ArrayList;
 
-public class BinRegion extends Group {
+import static configuration.AssetLoading.TILE_SIZE;
+
+public class BinRegion extends Rectangle {
+
+    private ArrayList<Tile> tileChildren = new ArrayList<>();
 
     static final int BIN_REGION_SIZE = 25;
 
-    BinRegion(int x, int y) {
-        this.setLayoutX(x);
-        this.setLayoutY(y);
+    @Contract(pure = true)
+    BinRegion(int xCoord, int yCoord) {
+        this.setX(xCoord);
+        this.setY(yCoord);
+        this.setWidth(BIN_REGION_SIZE * TILE_SIZE);
+        this.setHeight(BIN_REGION_SIZE * TILE_SIZE);
+        this.setOpacity(0);
     }
 
-    BoundingBox getBoundLimits() {
-        return new BoundingBox(this.getLayoutX(), this.getLayoutY(), BIN_REGION_SIZE * AssetLoading.TILE_SIZE, BIN_REGION_SIZE * AssetLoading.TILE_SIZE);
+    public void addObject(int x, int y, @NotNull Tile objectToAdd) {
+        objectToAdd.setXCoord(x);
+        objectToAdd.setYCoord(y);
+        tileChildren.add(objectToAdd);
     }
 
-    public void addObject(int x, int y, ImageView objectToAdd) {
-        objectToAdd.setLayoutX(x - this.getLayoutX());
-        objectToAdd.setLayoutY(y - this.getLayoutY());
-        this.getChildren().add(objectToAdd);
+    public ArrayList<ImageView> getTileImageViews() {
+        ArrayList<ImageView> allTileImageViews = new ArrayList<>();
+        for (Tile tile :tileChildren) {
+            allTileImageViews.add(tile.constructImageView());
+        }
+
+        return allTileImageViews;
+    }
+
+    public int getTileSetSize() {
+        return tileChildren.size();
     }
 }

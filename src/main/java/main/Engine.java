@@ -10,12 +10,9 @@ import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import tiles.regioning.BinRegion;
-import tiles.regioning.BinRegionHandler;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 import world.WorldHandler;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Engine extends Application {
 
@@ -27,14 +24,13 @@ public class Engine extends Application {
     private static double deltaTime = 0;
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(@NotNull Stage primaryStage) {
         primaryStage.setTitle("2D Engine");
 
         primaryStage.show();
         primaryStage.setScene(initialScene);
 
         engineInit();
-
     }
 
     private void engineInit() {
@@ -76,39 +72,14 @@ public class Engine extends Application {
     }
 
     private static void updateTick() {
-
         //TODO: Implement proper bin region switching
-    }
-
-    static void drawUpdate() {
-        List<List<BinRegion>> activeRegions = BinRegionHandler.getActiveWorldRegions();
-
-        Bounds localViewport = WorldHandler.getCurrentWorld().sceneToLocal(getViewport());
-
-        ArrayList<BinRegion> seenRegions = new ArrayList<>();
-        for (List<BinRegion> regionsList : activeRegions) {
-            for (BinRegion regions : regionsList) {
-                if (regions.localToParent(regions.getLayoutBounds()).intersects(localViewport))
-                    seenRegions.add(regions);
-                else
-                    seenRegions.remove(regions);
-            }
-        }
-
-        for (BinRegion region : seenRegions) {
-            if (!WorldHandler.getCurrentWorld().getChildren().contains(region))
-                WorldHandler.getCurrentWorld().getChildren().add(WorldHandler.getCurrentWorld().getChildren().size(), region);
-        }
-
-        if ((WorldHandler.getCurrentWorld().getChildren().size() - seenRegions.size()) > 0) {
-            WorldHandler.getCurrentWorld().getChildren().subList(0, (WorldHandler.getCurrentWorld().getChildren().size() - seenRegions.size())).clear();
-        }
     }
 
     public static void clearScreen() {
         root.getChildren().clear();
     }
 
+    @Contract(pure = true)
     static Bounds getViewport() {
         return viewport;
     }

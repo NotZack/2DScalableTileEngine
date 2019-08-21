@@ -1,12 +1,13 @@
 package tiles;
 
 import configuration.AssetLoading;
+import org.jetbrains.annotations.NotNull;
 import tiles.regioning.BinRegionHandler;
 import world.World;
 
 class TileCreation {
 
-    static void populateBinRegions(World currentWorld) {
+    static void populateBinRegions(@NotNull World currentWorld) {
 
         //if save exists: load save else:
 

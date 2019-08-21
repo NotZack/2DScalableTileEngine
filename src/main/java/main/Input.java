@@ -5,8 +5,11 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.jetbrains.annotations.NotNull;
-import world.World;
+import tiles.regioning.BinRegion;
+import tiles.regioning.BinRegionHandler;
 import world.WorldHandler;
+
+import java.util.List;
 
 class Input {
 
@@ -67,22 +70,24 @@ class Input {
     }
 
     static void updateCamera() {
-        World currentWorld = WorldHandler.getCurrentWorld();
-        if (northMovement)
-            currentWorld.setLayoutY(currentWorld.getLayoutY() + cameraMoveSpeed);
-        if (westMovement)
-            currentWorld.setLayoutX(currentWorld.getLayoutX() + cameraMoveSpeed);
-        if (southMovement)
-            currentWorld.setLayoutY(currentWorld.getLayoutY() - cameraMoveSpeed);
-        if (eastMovement)
-            currentWorld.setLayoutX(currentWorld.getLayoutX() - cameraMoveSpeed);
+        if (northMovement || westMovement || southMovement || eastMovement || zoomIn || zoomOut) {
 
-        if (zoomIn)
-            zoomCamera(true);
-        if (zoomOut)
-            zoomCamera(false);
+            if (northMovement)
+                WorldHandler.getCurrentWorld().setLayoutY(WorldHandler.getCurrentWorld().getLayoutY() + cameraMoveSpeed);
+            if (westMovement)
+                WorldHandler.getCurrentWorld().setLayoutX(WorldHandler.getCurrentWorld().getLayoutX() + cameraMoveSpeed);
+            if (southMovement)
+                WorldHandler.getCurrentWorld().setLayoutY(WorldHandler.getCurrentWorld().getLayoutY() - cameraMoveSpeed);
+            if (eastMovement)
+                WorldHandler.getCurrentWorld().setLayoutX(WorldHandler.getCurrentWorld().getLayoutX() - cameraMoveSpeed);
 
-        Engine.drawUpdate();
+            if (zoomIn)
+                zoomCamera(true);
+            if (zoomOut)
+                zoomCamera(false);
+
+            drawCameraUpdate();
+        }
     }
 
     private static void zoomCamera(boolean direction) {
@@ -107,5 +112,30 @@ class Input {
         //Applying the new translation
         WorldHandler.getCurrentWorld().setLayoutX(WorldHandler.getCurrentWorld().getLayoutX() - (f * shiftX));
         WorldHandler.getCurrentWorld().setLayoutY(WorldHandler.getCurrentWorld().getLayoutY() - (f * shiftY));
+    }
+
+    private static int numOfScreenObjs = 0;
+    private static void drawCameraUpdate() {
+        List<List<BinRegion>> activeRegions = BinRegionHandler.getActiveWorldRegions();
+        Bounds localViewport = WorldHandler.getCurrentWorld().sceneToLocal(Engine.getViewport());
+
+        System.out.println(WorldHandler.getCurrentWorld().getChildren().size());
+        for (List<BinRegion> regionsList : activeRegions) {
+            for (BinRegion region : regionsList) {
+                if (region.getLayoutBounds().intersects(localViewport)) {
+                    numOfScreenObjs += (region.getTileSetSize() + 1);
+
+                    if (!WorldHandler.getCurrentWorld().getChildren().contains(region)) {
+                        WorldHandler.getCurrentWorld().getChildren().add(WorldHandler.getCurrentWorld().getChildren().size(), region);
+                        WorldHandler.getCurrentWorld().getChildren().addAll(region.getTileImageViews());
+                    }
+                }
+            }
+        }
+
+        if (numOfScreenObjs != WorldHandler.getCurrentWorld().getChildren().size()) {
+            WorldHandler.getCurrentWorld().getChildren().subList(0, (WorldHandler.getCurrentWorld().getChildren().size() - (numOfScreenObjs))).clear();
+        }
+        numOfScreenObjs = 0;
     }
 }

@@ -1,6 +1,7 @@
 package world;
 
 import javafx.scene.layout.Pane;
+import org.jetbrains.annotations.NotNull;
 
 import static configuration.AssetLoading.TILE_SIZE;
 
@@ -9,7 +10,7 @@ public class World extends Pane {
     private int worldId;
     private String classification;
 
-    World(WorldTemplate worldTemplate) {
+    World(@NotNull WorldTemplate worldTemplate) {
         this.worldId = worldTemplate.getWorldId();
         this.classification = worldTemplate.getClassification();
 
