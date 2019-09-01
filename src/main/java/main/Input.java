@@ -1,7 +1,9 @@
 package main;
 
+import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.jetbrains.annotations.NotNull;
@@ -9,6 +11,7 @@ import tiles.regioning.BinRegion;
 import tiles.regioning.BinRegionHandler;
 import world.WorldHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class Input {
@@ -21,7 +24,7 @@ class Input {
     private static boolean zoomIn = false;
     private static boolean zoomOut = false;
 
-    private static int cameraMoveSpeed = 20;
+    private static final int CAMERA_MOVE_SPEED = 20;
 
     /**
      * Sets the listener for any key press or mouse event. Will update the corresponding object.
@@ -69,17 +72,17 @@ class Input {
         });
     }
 
-    static void updateCamera() {
-        if (northMovement || westMovement || southMovement || eastMovement || zoomIn || zoomOut) {
+    static void updateCamera(boolean forceUpdate) {
+        if (forceUpdate || northMovement || westMovement || southMovement || eastMovement || zoomIn || zoomOut) {
 
             if (northMovement)
-                WorldHandler.getCurrentWorld().setLayoutY(WorldHandler.getCurrentWorld().getLayoutY() + cameraMoveSpeed);
+                WorldHandler.getCurrentWorld().setLayoutY(WorldHandler.getCurrentWorld().getLayoutY() + CAMERA_MOVE_SPEED);
             if (westMovement)
-                WorldHandler.getCurrentWorld().setLayoutX(WorldHandler.getCurrentWorld().getLayoutX() + cameraMoveSpeed);
+                WorldHandler.getCurrentWorld().setLayoutX(WorldHandler.getCurrentWorld().getLayoutX() + CAMERA_MOVE_SPEED);
             if (southMovement)
-                WorldHandler.getCurrentWorld().setLayoutY(WorldHandler.getCurrentWorld().getLayoutY() - cameraMoveSpeed);
+                WorldHandler.getCurrentWorld().setLayoutY(WorldHandler.getCurrentWorld().getLayoutY() - CAMERA_MOVE_SPEED);
             if (eastMovement)
-                WorldHandler.getCurrentWorld().setLayoutX(WorldHandler.getCurrentWorld().getLayoutX() - cameraMoveSpeed);
+                WorldHandler.getCurrentWorld().setLayoutX(WorldHandler.getCurrentWorld().getLayoutX() - CAMERA_MOVE_SPEED);
 
             if (zoomIn)
                 zoomCamera(true);
@@ -114,12 +117,15 @@ class Input {
         WorldHandler.getCurrentWorld().setLayoutY(WorldHandler.getCurrentWorld().getLayoutY() - (f * shiftY));
     }
 
+    /**
+     * Renders the proper bin region's imageview's dependant on camera position.
+     */
     private static int numOfScreenObjs = 0;
     private static void drawCameraUpdate() {
         List<List<BinRegion>> activeRegions = BinRegionHandler.getActiveWorldRegions();
         Bounds localViewport = WorldHandler.getCurrentWorld().sceneToLocal(Engine.getViewport());
 
-        System.out.println(WorldHandler.getCurrentWorld().getChildren().size());
+        //Add all seen regions and regions' imageviews
         for (List<BinRegion> regionsList : activeRegions) {
             for (BinRegion region : regionsList) {
                 if (region.getLayoutBounds().intersects(localViewport)) {
@@ -134,8 +140,9 @@ class Input {
         }
 
         if (numOfScreenObjs != WorldHandler.getCurrentWorld().getChildren().size()) {
-            WorldHandler.getCurrentWorld().getChildren().subList(0, (WorldHandler.getCurrentWorld().getChildren().size() - (numOfScreenObjs))).clear();
+            Platform.runLater(() -> WorldHandler.getCurrentWorld().getChildren().subList(0, (WorldHandler.getCurrentWorld().getChildren().size() - (numOfScreenObjs))).clear());
         }
+
         numOfScreenObjs = 0;
     }
 }

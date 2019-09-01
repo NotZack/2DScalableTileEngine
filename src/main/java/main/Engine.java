@@ -40,7 +40,11 @@ public class Engine extends Application {
 
         WorldHandler.changeWorld(0);
 
-        Platform.runLater(() -> root.getChildren().add(WorldHandler.getCurrentWorld()));
+        Platform.runLater(() -> {
+            root.getChildren().add(WorldHandler.getCurrentWorld());
+            Input.updateCamera(true);
+        });
+
         startEngineLoop();
     }
 
@@ -54,7 +58,7 @@ public class Engine extends Application {
             @Override
             public void handle(long frameTime) {
 
-                Input.updateCamera();
+                Input.updateCamera(false);
 
                 //Time difference from last frame
                 deltaTime = 0.00000001 * (frameTime - lastUpdate);
