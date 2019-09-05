@@ -4,7 +4,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import tiles.Tile;
+import tiles.tileTypes.TerrainTile;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import static configuration.AssetLoading.TILE_SIZE;
 
 public class BinRegion extends Rectangle {
 
-    private ArrayList<Tile> tileChildren = new ArrayList<>();
+    private ArrayList<TerrainTile> tileChildren = new ArrayList<>();
 
     static final int BIN_REGION_SIZE = 25;
 
@@ -25,7 +25,7 @@ public class BinRegion extends Rectangle {
         this.setOpacity(0);
     }
 
-    public void addObject(int x, int y, @NotNull Tile objectToAdd) {
+    public void addObject(int x, int y, @NotNull TerrainTile objectToAdd) {
         objectToAdd.setXCoord(x);
         objectToAdd.setYCoord(y);
         tileChildren.add(objectToAdd);
@@ -33,7 +33,7 @@ public class BinRegion extends Rectangle {
 
     public ArrayList<ImageView> getTileImageViews() {
         ArrayList<ImageView> allTileImageViews = new ArrayList<>();
-        for (Tile tile :tileChildren) {
+        for (TerrainTile tile :tileChildren) {
             allTileImageViews.add(tile.constructImageView());
         }
 

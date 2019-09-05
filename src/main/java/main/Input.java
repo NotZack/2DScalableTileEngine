@@ -3,7 +3,6 @@ package main;
 import javafx.application.Platform;
 import javafx.geometry.Bounds;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import org.jetbrains.annotations.NotNull;
@@ -11,7 +10,6 @@ import tiles.regioning.BinRegion;
 import tiles.regioning.BinRegionHandler;
 import world.WorldHandler;
 
-import java.util.ArrayList;
 import java.util.List;
 
 class Input {

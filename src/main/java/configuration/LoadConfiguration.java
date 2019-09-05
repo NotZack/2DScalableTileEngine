@@ -1,6 +1,7 @@
 package configuration;
 
 import org.ini4j.Ini;
+import org.jetbrains.annotations.Contract;
 import saveState.LoadWorld;
 
 import java.io.File;
@@ -33,6 +34,7 @@ public class LoadConfiguration {
         }
     }
 
+    @Contract(pure = true)
     public static int getNumOfInitWorlds() {
         return numOfInitWorlds;
     }

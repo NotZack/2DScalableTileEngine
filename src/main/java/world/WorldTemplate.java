@@ -1,5 +1,7 @@
 package world;
 
+import org.jetbrains.annotations.Contract;
+
 import java.util.ArrayList;
 
 public class WorldTemplate {
@@ -18,6 +20,7 @@ public class WorldTemplate {
         templates.add(this);
     }
 
+    @Contract(pure = true)
     static WorldTemplate getTemplate(int index) {
         return templates.get(index);
     }

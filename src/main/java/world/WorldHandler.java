@@ -1,8 +1,9 @@
 package world;
 
 import configuration.LoadConfiguration;
-import logging.LoggerHandler;
 import main.Engine;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
 import tiles.TileHandler;
 
 import java.util.ArrayList;
@@ -17,16 +18,17 @@ public class WorldHandler {
         worldsList.add(worldToAdd);
     }
 
-    public static World getWorld(int worldId) {
+    @Nullable
+    private static World getWorld(int worldId) {
         for (World world : worldsList) {
             if (world.getWorldId() == worldId) {
                 return world;
             }
         }
-        LoggerHandler.logEvent(worldId, "Could not find worldId: ");
         return null;
     }
 
+    @Contract(pure = true)
     public static ArrayList<World> getWorldsList() {
         return worldsList;
     }
@@ -38,6 +40,7 @@ public class WorldHandler {
         currentWorld = getWorld(0);
     }
 
+    @Contract(pure = true)
     public static World getCurrentWorld() {
         return currentWorld;
     }

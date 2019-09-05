@@ -1,18 +1,20 @@
-package tiles;
+package tiles.tileTypes;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import org.jetbrains.annotations.Contract;
 
-public class Tile {
+public abstract class GenericTile {
 
     private Image tileImage;
+    private String tileCategory;
     private int xCoord;
     private int yCoord;
 
     @Contract(pure = true)
-    Tile(Image tileImage) {
+    GenericTile(Image tileImage, String tileCategory) {
         this.tileImage = tileImage;
+        this.tileCategory = tileCategory;
     }
 
     public void setXCoord(int xCoord) {
@@ -21,6 +23,10 @@ public class Tile {
 
     public void setYCoord(int yCoord) {
         this.yCoord = yCoord;
+    }
+
+    String getTileCategory() {
+        return tileCategory;
     }
 
     public ImageView constructImageView() {

@@ -5,6 +5,9 @@ import org.jetbrains.annotations.NotNull;
 
 import static configuration.AssetLoading.TILE_SIZE;
 
+/**
+ * A world is the root pane for all terrain.
+ */
 public class World extends Pane {
 
     private int worldId;

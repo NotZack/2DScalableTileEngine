@@ -14,6 +14,9 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import world.WorldHandler;
 
+/**
+ * Contains the initialization and configuration of the engine.
+ */
 public class Engine extends Application {
 
     private static Group root = new Group();
@@ -23,6 +26,10 @@ public class Engine extends Application {
     private static long engineSpeed = 128_666_666L;
     private static double deltaTime = 0;
 
+    /**
+     * JavaFX method that runs on application start.
+     * @param primaryStage The Stage for this application
+     */
     @Override
     public void start(@NotNull Stage primaryStage) {
         primaryStage.setTitle("2D Engine");
@@ -33,6 +40,9 @@ public class Engine extends Application {
         engineInit();
     }
 
+    /**
+     * Collects resources, calls configuration loading, and starts the engine.
+     */
     private void engineInit() {
         LoadConfiguration.load();
         WorldHandler.createWorlds();
@@ -48,6 +58,9 @@ public class Engine extends Application {
         startEngineLoop();
     }
 
+    /**
+     * Initializes the main loop which handles updating of the viewport and anything else.
+     */
     private static void startEngineLoop() {
         Input.enableInput(initialScene);
 
@@ -75,14 +88,22 @@ public class Engine extends Application {
         engineLoop.start();
     }
 
+    /**
+     * Called during every frame of the engine.
+     */
     private static void updateTick() {
-        //TODO: Implement proper bin region switching
     }
 
+    /**
+     * Clears the root node of all children.
+     */
     public static void clearScreen() {
         root.getChildren().clear();
     }
 
+    /**
+     * @return The current Stage's viewport.
+     */
     @Contract(pure = true)
     static Bounds getViewport() {
         return viewport;
