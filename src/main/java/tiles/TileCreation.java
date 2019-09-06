@@ -6,8 +6,15 @@ import tiles.regioning.BinRegionHandler;
 import tiles.tileTypes.TerrainTile;
 import world.World;
 
+/**
+ * Handles the creation of tiles.
+ */
 class TileCreation {
 
+    /**
+     * Creates all the tiles for a given world's bin regions according to world size.
+     * @param currentWorld The current world to create tiles for
+     */
     static void populateBinRegions(@NotNull World currentWorld) {
 
         //todo: if save exists: load save else:
@@ -23,6 +30,9 @@ class TileCreation {
         createWorldBiomes();
     }
 
+    /**
+     * Creates all biomes for a given world. Requires that all basic terrain tiles were created first.
+     */
     private static void createWorldBiomes() {
         //TODO: Implement biomes
     }
